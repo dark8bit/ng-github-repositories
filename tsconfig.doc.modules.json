@@ -1,0 +1,4 @@
+{
+  "include": ["src/**/*.module.ts"],
+  "exclude": ["src/app/shared/**/*.module.ts", "src/**/*-routing.module.ts"]
+}

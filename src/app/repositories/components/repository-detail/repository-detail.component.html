@@ -1,0 +1,24 @@
+<div class="container" *ngIf="(isLoading$ | async) === false; else spinner">
+  <div class="content">
+    <div class="readme" *ngIf="readme$ | async as readme">
+      <h2 class="readme-title">{{readme.name}}</h2>
+      <div class="readme-content" [innerHtml]="readme.content | atobText | safeHtml"></div>
+    </div>
+  </div>
+  <div class="commits">
+    @for (commit of commits$ | async; track commit.node_id) {
+      <div class="commit">
+        <div class="commit-author">
+          <strong>{{commit.commit.author.name}}</strong>
+        </div>
+        <div class="commit-message">
+          {{commit.commit.message}}
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #spinner>
+  <mat-spinner></mat-spinner>
+</ng-template>

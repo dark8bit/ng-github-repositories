@@ -1,0 +1,18 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  justify-items: stretch;
+  grid-gap: 40px;
+
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.commit {
+  display: block;
+  padding: 30px 20px;
+  border-radius: 28px;
+  box-shadow: 0 0 10px 0 #121212;
+  margin-bottom: 25px;
+}
