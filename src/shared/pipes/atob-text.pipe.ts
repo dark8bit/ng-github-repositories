@@ -3,8 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'atobText',
 })
 export class AtobTextPipe implements PipeTransform {
-  transform(text: string): string {
-    if (!text.trim()?.length) {
+  transform(text: string | undefined): string {
+    if (!text?.trim()?.length) {
       return '';
     }
 

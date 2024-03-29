@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {BehaviorSubject, map, Observable, switchMap} from "rxjs";
-import {Repository} from "../interfaces/repository.interface";
+import {Repository} from "../../../shared/interfaces/repository.interface";
 import {RepositoriesApiService} from "../api/repositories-api.service";
-import {Readme} from "../interfaces/readme.interface";
+import {Readme} from "../../../shared/interfaces/readme.interface";
 
 @Injectable()
 export class RepositoriesService {

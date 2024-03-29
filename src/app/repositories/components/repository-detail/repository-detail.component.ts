@@ -1,45 +1,25 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {NgUnsubscriber} from "../../../../shared/utils/unsubscriber";
-import {AsyncPipe, NgFor, NgIf} from "@angular/common";
-import {SharedModule} from "../../../../shared/shared.module";
-import {RepositoryService} from "../../../../shared/services/repository.service";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {REPOSITORY_DETAIL_INFO, REPOSITORY_DETAIL_PROVIDERS} from "./repository-detail.providers";
+import {Observable} from "rxjs";
+import {RepositoryInfoType} from "../../types/repository-info.type";
 
 @Component({
   selector: 'app-repository-detail',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    NgFor,
-    NgIf,
-    SharedModule,
-    MatProgressSpinner
-  ],
+  providers: [REPOSITORY_DETAIL_PROVIDERS],
   templateUrl: './repository-detail.component.html',
   styleUrl: './repository-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RepositoryDetailComponent extends NgUnsubscriber implements OnInit {
-  public readonly readme$ = this.repositoryService.repositoryReadme$;
-  public readonly repository$ = this.repositoryService.repository$;
-  public readonly commits$ = this.repositoryService.commits$;
-  public readonly isLoading$ = this.repositoryService.isLoading$;
 
   constructor(
-    private repositoryService: RepositoryService,
-    private route: ActivatedRoute,
+    @Inject(REPOSITORY_DETAIL_INFO) readonly repositoryDetail$: Observable<RepositoryInfoType>,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.getRepositoryInfo();
-  }
-
-  private getRepositoryInfo(): void {
-    const {owner, repo} = this.route.snapshot.params;
-
-    this.repositoryService.getRepositoryInfo(owner, repo);
+    this.repositoryDetail$.subscribe(console.log);
   }
 }

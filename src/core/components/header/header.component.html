@@ -11,5 +11,20 @@
       [routerLink]="['/', 'repositories']">
       <mat-icon>favorite</mat-icon>
     </button>
+    <button
+      *ngIf="!isAuth; else logout"
+      mat-icon-button
+      class="example-icon favorite-icon"
+      [routerLink]="['/', 'auth']">
+      <mat-icon>login</mat-icon>
+    </button>
+    <ng-template #logout>
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </ng-template>
   </mat-toolbar>
 </div>
