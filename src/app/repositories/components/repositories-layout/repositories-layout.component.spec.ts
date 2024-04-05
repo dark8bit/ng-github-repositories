@@ -8,10 +8,9 @@ describe('RepositoriesLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RepositoriesLayoutComponent]
-    })
-    .compileComponents();
-    
+      imports: [RepositoriesLayoutComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(RepositoriesLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

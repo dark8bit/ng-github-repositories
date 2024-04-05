@@ -1,0 +1,11 @@
+*.json
+dist
+.vscode/*
+*.yml
+*.xlf
+*.svg
+*.png
+*.jpg
+*.woff2
+*.ico
+src/artefacts

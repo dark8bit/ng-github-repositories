@@ -1,7 +1,7 @@
-import {NgModule} from '@angular/core';
-import {RouterOutlet} from "@angular/router";
-import {AtobTextPipe} from "./pipes/atob-text.pipe";
-import {SafeHtmlPipe} from "./pipes/safe-html.pipe";
+import { NgModule } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { AtobTextPipe } from './pipes/atob-text.pipe';
+import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import {
   MatCard,
   MatCardActions,
@@ -9,10 +9,10 @@ import {
   MatCardHeader,
   MatCardImage,
   MatCardSubtitle,
-  MatCardTitle
-} from "@angular/material/card";
-import {MatButton} from "@angular/material/button";
-import {AsyncPipe, NgFor, NgIf} from "@angular/common";
+  MatCardTitle,
+} from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 
 const materialComponents = [
   MatCard,
@@ -23,7 +23,7 @@ const materialComponents = [
   MatButton,
   MatCardSubtitle,
   MatCardTitle,
-]
+];
 
 @NgModule({
   declarations: [AtobTextPipe, SafeHtmlPipe],
@@ -33,15 +33,8 @@ const materialComponents = [
     AsyncPipe,
     NgFor,
     NgIf,
-    ...materialComponents
+    ...materialComponents,
   ],
-  imports: [
-    RouterOutlet,
-    AsyncPipe,
-    NgFor,
-    NgIf,
-    ...materialComponents
-  ],
+  imports: [RouterOutlet, AsyncPipe, NgFor, NgIf, ...materialComponents],
 })
-export class SharedModule {
-}
+export class SharedModule {}

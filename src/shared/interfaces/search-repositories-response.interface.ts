@@ -1,4 +1,4 @@
-import {Repository} from "./repository.interface";
+import { Repository } from './repository.interface';
 
 export interface SearchRepositoriesResponse {
   total_count: number;

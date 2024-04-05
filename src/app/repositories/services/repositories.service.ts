@@ -1,26 +1,33 @@
-import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable, switchMap} from "rxjs";
-import {Repository} from "../../../shared/interfaces/repository.interface";
-import {RepositoriesApiService} from "../api/repositories-api.service";
-import {Readme} from "../../../shared/interfaces/readme.interface";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, Observable, of, switchMap } from 'rxjs';
+import { Repository } from '@shared/interfaces/repository.interface';
+import { RepositoriesApiService } from '../api/repositories-api.service';
 
 @Injectable()
 export class RepositoriesService {
   private _searchRepositoriesQuery$ = new BehaviorSubject('');
 
-  constructor(
-    private repositoriesApiService: RepositoriesApiService
-  ) {
-  }
+  constructor(private repositoriesApiService: RepositoriesApiService) {}
 
   updateSearchRepositoriesQuery(params: string): void {
     this._searchRepositoriesQuery$.next(params);
   }
 
   getRepositories(): Observable<Repository[]> {
-    return this._searchRepositoriesQuery$.asObservable().pipe(
-      switchMap(params => params ? this.repositoriesApiService.searchRepositories(params) : this.repositoriesApiService.getRepositories())
-    );
-  }
+    const searchRepositories$ = (params: string) =>
+      this.repositoriesApiService
+        .searchRepositories(params)
+        .pipe(catchError(() => of([])));
+    const getRepositories$ = this.repositoriesApiService
+      .getRepositories()
+      .pipe(catchError(() => of([])));
 
+    return this._searchRepositoriesQuery$
+      .asObservable()
+      .pipe(
+        switchMap((params) =>
+          params ? searchRepositories$(params) : getRepositories$
+        )
+      );
+  }
 }

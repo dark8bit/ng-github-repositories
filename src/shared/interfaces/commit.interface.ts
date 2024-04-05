@@ -10,8 +10,7 @@ export interface Commit {
   parents: any[];
 }
 
-interface CommitAuthor {
-}
+interface CommitAuthor {}
 
 interface CommitClass {
   author: CommitAuthorClass;

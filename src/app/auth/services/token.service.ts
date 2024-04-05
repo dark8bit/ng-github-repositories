@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
   private tokenKey = 'access_token';
   private expiresAtKey = 'expires_at';
 
-  constructor() { }
+  constructor() {}
 
   public get authToken(): string {
     const token = localStorage.getItem(this.tokenKey) || '';
