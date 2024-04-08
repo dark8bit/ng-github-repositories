@@ -23,7 +23,7 @@ export class TokenService {
     localStorage.setItem(this.tokenKey, token);
   }
 
-  localStorageClear(): void {
+  public localStorageClear(): void {
     localStorage.clear();
   }
 

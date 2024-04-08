@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './auth/guards/authGuard';
+import { authGuard } from './auth/guards/auth.guard';
 import { ROUTES_PATH } from './enums/routes-path.enum';
 
 export const routes: Routes = [
@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: ROUTES_PATH.REPOSITORIES,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./repositories/repositories.module').then(
         (m) => m.RepositoriesModule

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, switchMap } from 'rxjs';
-import { AuthFacadeService } from './services/auth-facade.service';
-import { HTTP_PARAMS } from '../enums/http-params.enum';
+import { AuthFacadeService } from './facades/auth-facade.service';
+import { HTTP_PARAMS } from './enums/http-params.enum';
 
 @Component({
   selector: 'app-auth',
@@ -17,9 +17,9 @@ export class AuthComponent {
   ) {
     this.activatedRoute.queryParams
       .pipe(
-        filter((params) => params && params[HTTP_PARAMS.code]),
+        filter((params) => params && params[HTTP_PARAMS.CODE]),
         switchMap((params) => {
-          const code = params[HTTP_PARAMS.code];
+          const code = params[HTTP_PARAMS.CODE];
 
           return this.authFacade.setLogin(code);
         })
