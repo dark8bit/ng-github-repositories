@@ -10,6 +10,7 @@ import { RepositoriesComponent } from './components/repositories/repositories.co
 import { AsyncPipe } from '@angular/common';
 import { SearchComponent } from '@shared/components/search/search.component';
 import { RepositoryDetailComponent } from './components/repository-detail/repository-detail.component';
+import { QueryHelperService } from '@app/repositories/helpers/query-helper.service';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const services = [
   RepositoriesService,
   RepositoryApiService,
   RepositoryService,
+  QueryHelperService,
 ];
 
 @NgModule({

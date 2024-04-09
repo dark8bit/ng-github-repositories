@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: ROUTES_PATH.REPOSITORIES,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     loadChildren: () =>
       import('./repositories/repositories.module').then(
         (m) => m.RepositoriesModule

@@ -1,27 +1,21 @@
 <div>
   <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon">
-      <mat-icon>menu</mat-icon>
-    </button>
     <span>My Github App</span>
     <span class="example-spacer"></span>
     <button
       mat-icon-button
-      class="example-icon favorite-icon"
       [routerLink]="['/', 'repositories']">
-      <mat-icon>favorite</mat-icon>
+      <mat-icon>group</mat-icon>
     </button>
     <button
       *ngIf="!isAuth; else logout"
       mat-icon-button
-      class="example-icon favorite-icon"
       [routerLink]="['/', 'auth']">
       <mat-icon>login</mat-icon>
     </button>
     <ng-template #logout>
       <button
         mat-icon-button
-        class="example-icon favorite-icon"
         (click)="onLogout()">
         <mat-icon>logout</mat-icon>
       </button>
