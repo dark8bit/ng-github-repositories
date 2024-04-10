@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
+  finalize,
   map,
   Observable,
   of,
@@ -11,15 +12,24 @@ import { Repository } from '@shared/interfaces/repository.interface';
 import { RepositoriesApiService } from '../api/repositories-api.service';
 import { RepositorySearch } from '@app/repositories/interfaces/repository-search';
 import { SharedHelperService } from '@shared/helpers/shared-helper.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ROUTES_PATH } from '@app/enums/routes-path.enum';
+import { HTTP_PARAMS } from '@app/auth/enums/http-params.enum';
 
 @Injectable()
 export class RepositoriesService {
   private _searchRepositoriesQuery$ = new BehaviorSubject<RepositorySearch>({
-    q: '',
-    language: null,
+    q: this.route.snapshot.queryParams[HTTP_PARAMS.Q] ?? '',
+    language: this.route.snapshot.queryParams[HTTP_PARAMS.LANGUAGE] ?? null,
   });
 
-  constructor(private repositoriesApiService: RepositoriesApiService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private repositoriesApiService: RepositoriesApiService
+  ) {}
 
   updateSearchRepositoriesQuery(params: RepositorySearch): void {
     this._searchRepositoriesQuery$.next(params);
@@ -49,9 +59,10 @@ export class RepositoriesService {
   ): Observable<Repository[]> {
     const paramsString = SharedHelperService.getParamString(params);
 
-    return this.repositoriesApiService
-      .searchRepositories(paramsString)
-      .pipe(catchError(() => of([])));
+    return this.repositoriesApiService.searchRepositories(paramsString).pipe(
+      catchError(() => of([])),
+      finalize(() => this.locationGoUrlTree(params))
+    );
   }
 
   /**
@@ -62,5 +73,20 @@ export class RepositoriesService {
     return this.repositoriesApiService
       .getRepositories()
       .pipe(catchError(() => of([])));
+  }
+
+  /**
+   * Добавляем параметры поиска в урл
+   * @param params - параметры поиска
+   * @private
+   */
+  private locationGoUrlTree(params: RepositorySearch): void {
+    const urlTree = this.router.createUrlTree([ROUTES_PATH.REPOSITORIES], {
+      relativeTo: this.route,
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
+
+    this.location.go(urlTree.toString());
   }
 }

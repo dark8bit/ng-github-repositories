@@ -7,7 +7,12 @@ import {
 } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { CoreModule } from '../../../core/core.module';
@@ -16,6 +21,7 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { LANGUAGES } from '@shared/consts/languages.const';
 import { RepositorySearch } from '@app/repositories/interfaces/repository-search';
 import { NgUnsubscriber } from '@shared/utils/unsubscriber';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -38,14 +44,14 @@ import { NgUnsubscriber } from '@shared/utils/unsubscriber';
 export class SearchComponent extends NgUnsubscriber implements OnInit {
   @Output() searchEvent = new EventEmitter<RepositorySearch>();
 
-  public readonly searchForm = this.fb.group({
-    q: new FormControl('', { nonNullable: true }),
-    language: new FormControl(null),
-  });
+  public readonly searchForm = this.initForm();
   public readonly textFormControl = this.searchForm.get('q') as FormControl;
   public readonly languages = LANGUAGES;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) {
     super();
   }
 
@@ -58,5 +64,14 @@ export class SearchComponent extends NgUnsubscriber implements OnInit {
         takeUntil(this.ngUnsubscribe$$)
       )
       .subscribe();
+  }
+
+  private initForm(): FormGroup {
+    const { q = '', language = null } = this.route.snapshot.queryParams;
+
+    return this.fb.group({
+      q: new FormControl(q),
+      language: new FormControl(language),
+    });
   }
 }
