@@ -1,7 +1,4 @@
-<ng-container *ngIf="{
-repositoryReadme: (repositoryDetail$ | async)?.repositoryReadme,
-repositoryCommits: (repositoryDetail$ | async)?.repositoryCommits,
-} as repositoryInfo">
+<ng-container *ngIf="repositoryDetail$ | async as repositoryInfo">
   <div class="container">
     <div class="content">
       <div class="readme">

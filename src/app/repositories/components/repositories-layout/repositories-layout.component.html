@@ -1,7 +1,5 @@
 <app-search
-  [label]="'Search repositories'"
   (searchEvent)="updateSearchRepositoriesQuery($event)"
 ></app-search>
 <app-repositories
-  [repositories]="(repositories$ | async) || []"
-></app-repositories>
+  [repositories]="(repositories$ | async) || []"></app-repositories>

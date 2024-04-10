@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RepositoriesService } from '../../services/repositories.service';
 import { Observable, tap } from 'rxjs';
 import { Repository } from '@shared/interfaces/repository.interface';
+import { RepositorySearch } from '@app/repositories/interfaces/repository-search';
 
 @Component({
   selector: 'app-repositories-layout',
@@ -16,7 +17,7 @@ export class RepositoriesLayoutComponent {
       .getRepositories()
       .pipe(tap((res) => console.log(res)));
 
-  public updateSearchRepositoriesQuery(params: string): void {
+  public updateSearchRepositoriesQuery(params: RepositorySearch): void {
     this.repositoryService.updateSearchRepositoriesQuery(params);
   }
 }

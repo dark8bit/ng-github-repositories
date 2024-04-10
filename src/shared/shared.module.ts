@@ -13,6 +13,7 @@ import {
 } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { SharedHelperService } from '@shared/helpers/shared-helper.service';
 
 const materialComponents = [
   MatCard,
@@ -36,5 +37,6 @@ const materialComponents = [
     ...materialComponents,
   ],
   imports: [RouterOutlet, AsyncPipe, NgFor, NgIf, ...materialComponents],
+  providers: [SharedHelperService],
 })
 export class SharedModule {}

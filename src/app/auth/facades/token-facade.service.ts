@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenFacadeService {
-  isAuth = this.tokenService.isAuthenticated;
+  isAuth = this.tokenService.isAuth;
 
   constructor(
     private router: Router,

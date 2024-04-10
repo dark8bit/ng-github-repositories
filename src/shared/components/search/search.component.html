@@ -1,9 +1,25 @@
-<mat-form-field class="example-form-field">
-  <mat-label>{{label}}</mat-label>
-  <input matInput type="text" [formControl]="searchControl">
-  @if (searchControl.value) {
-    <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.reset()">
-      <mat-icon>close</mat-icon>
-    </button>
-  }
-</mat-form-field>
+<div class="container" [formGroup]="searchForm">
+  <mat-form-field class="example-form-field">
+    <mat-label>Search repositories</mat-label>
+    <input matInput type="text" [formControl]="textFormControl">
+    @if (textFormControl.value) {
+      <button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear" (click)="textFormControl.reset()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Select Language" formControlName="language">
+      <mat-option [value]="null"></mat-option>
+      @for (language of languages; track language) {
+        <mat-option [value]="language">
+          {{ language }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>

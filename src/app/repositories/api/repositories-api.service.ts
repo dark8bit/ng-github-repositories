@@ -11,14 +11,21 @@ export class RepositoriesApiService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Получение списка репозиториев (по-умолчанию)
+   */
   getRepositories(): Observable<Repository[]> {
     const url = this.baseUrl + '/repositories';
 
     return this.http.get<Repository[]>(url);
   }
 
+  /**
+   * Получение репозиториев по параметрам
+   * @param params - параметры запроса
+   */
   searchRepositories(params: string): Observable<Repository[]> {
-    const url = `${this.baseUrl}/search/repositories?q=${params}`;
+    const url = `${this.baseUrl}/search/repositories?${params}`;
 
     return this.http.get<SearchRepositoriesResponse>(url).pipe(
       map((res) => res.items),

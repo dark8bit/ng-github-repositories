@@ -15,7 +15,7 @@ export class TokenService {
     return `${token}`;
   }
 
-  public get isAuthenticated(): boolean {
+  public get isAuth(): boolean {
     return this.authToken !== null && this.isExpiresAt();
   }
 

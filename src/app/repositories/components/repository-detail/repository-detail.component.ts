@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
-import { NgUnsubscriber } from '@shared/utils/unsubscriber';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   REPOSITORY_DETAIL_INFO,
   REPOSITORY_DETAIL_PROVIDERS,
@@ -19,18 +13,9 @@ import { RepositoryInfo } from '../../interfaces/repository.info';
   styleUrl: './repository-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepositoryDetailComponent
-  extends NgUnsubscriber
-  implements OnInit
-{
+export class RepositoryDetailComponent {
   constructor(
     @Inject(REPOSITORY_DETAIL_INFO)
     readonly repositoryDetail$: Observable<RepositoryInfo>
-  ) {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.repositoryDetail$.subscribe(console.log);
-  }
+  ) {}
 }
