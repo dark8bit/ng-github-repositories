@@ -1,4 +1,5 @@
 <app-search
+  [params]="searchRepositoriesQuery$ | async"
   (searchEvent)="updateSearchRepositoriesQuery($event)"
 ></app-search>
 <app-repositories

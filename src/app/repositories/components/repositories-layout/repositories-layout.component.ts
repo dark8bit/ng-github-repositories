@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RepositoriesService } from '../../services/repositories.service';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Repository } from '@shared/interfaces/repository.interface';
 import { RepositorySearch } from '@app/repositories/interfaces/repository-search';
 
@@ -10,14 +10,14 @@ import { RepositorySearch } from '@app/repositories/interfaces/repository-search
   styleUrl: './repositories-layout.component.scss',
 })
 export class RepositoriesLayoutComponent {
-  private readonly repositoryService = inject(RepositoriesService);
+  private readonly repositoriesService = inject(RepositoriesService);
 
+  public readonly searchRepositoriesQuery$ =
+    this.repositoriesService.searchRepositoriesQuery$;
   public readonly repositories$: Observable<Repository[]> =
-    this.repositoryService
-      .getRepositories()
-      .pipe(tap((res) => console.log(res)));
+    this.repositoriesService.getRepositories();
 
   public updateSearchRepositoriesQuery(params: RepositorySearch): void {
-    this.repositoryService.updateSearchRepositoriesQuery(params);
+    this.repositoriesService.updateSearchRepositoriesQuery(params);
   }
 }

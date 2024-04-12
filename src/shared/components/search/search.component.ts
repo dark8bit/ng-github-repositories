@@ -2,17 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatInput } from '@angular/material/input';
 import { CoreModule } from '../../../core/core.module';
@@ -21,7 +17,6 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { LANGUAGES } from '@shared/consts/languages.const';
 import { RepositorySearch } from '@app/repositories/interfaces/repository-search';
 import { NgUnsubscriber } from '@shared/utils/unsubscriber';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -42,20 +37,35 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent extends NgUnsubscriber implements OnInit {
+  @Input() params: RepositorySearch | null = null;
   @Output() searchEvent = new EventEmitter<RepositorySearch>();
 
-  public readonly searchForm = this.initForm();
-  public readonly textFormControl = this.searchForm.get('q') as FormControl;
+  public readonly searchForm = this.fb.group({
+    q: new FormControl(''),
+    language: new FormControl<string | null | undefined>(null),
+  });
   public readonly languages = LANGUAGES;
 
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder) {
     super();
   }
 
   ngOnInit(): void {
+    this.initSearchForm();
+    this.searchFormValueChanges();
+  }
+
+  private initSearchForm() {
+    const q = this.params?.q ?? '';
+    const language = this.params?.language ?? null;
+
+    this.searchForm.setValue({
+      q,
+      language,
+    });
+  }
+
+  private searchFormValueChanges(): void {
     this.searchForm.valueChanges
       .pipe(
         debounceTime(500),
@@ -64,14 +74,5 @@ export class SearchComponent extends NgUnsubscriber implements OnInit {
         takeUntil(this.ngUnsubscribe$$)
       )
       .subscribe();
-  }
-
-  private initForm(): FormGroup {
-    const { q = '', language = null } = this.route.snapshot.queryParams;
-
-    return this.fb.group({
-      q: new FormControl(q),
-      language: new FormControl(language),
-    });
   }
 }

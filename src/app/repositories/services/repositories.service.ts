@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
   catchError,
+  filter,
   finalize,
   map,
   Observable,
@@ -31,15 +32,27 @@ export class RepositoriesService {
     private repositoriesApiService: RepositoriesApiService
   ) {}
 
-  updateSearchRepositoriesQuery(params: RepositorySearch): void {
+  /**
+   * Получение параметров поиска
+   */
+  public get searchRepositoriesQuery$(): Observable<RepositorySearch> {
+    return this._searchRepositoriesQuery$.asObservable();
+  }
+
+  /**
+   * Обновление параметров поиска
+   * @param params - Параметры поиска
+   */
+  public updateSearchRepositoriesQuery(params: RepositorySearch): void {
     this._searchRepositoriesQuery$.next(params);
   }
 
   /**
    * Получение списка репозиториев
    */
-  getRepositories(): Observable<Repository[]> {
+  public getRepositories(): Observable<Repository[]> {
     return this._searchRepositoriesQuery$.asObservable().pipe(
+      filter((params) => !!params),
       map((params) => SharedHelperService.filterNonNullValues(params)),
       switchMap((params: RepositorySearch) =>
         params.q || Object.keys(params).length > 1
